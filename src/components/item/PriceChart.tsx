@@ -49,10 +49,14 @@ export const PriceChart = ({ data }: PriceChartProps) => {
       ...zoomState,
       refAreaLeft: "",
       refAreaRight: "",
-      left,
-      right,
-      top: Math.max(...data.slice(left, right + 1).map((d) => d.price)),
-      bottom: Math.min(...data.slice(left, right + 1).map((d) => d.price)),
+      left: left.toString(),
+      right: right.toString(),
+      top: Math.max(
+        ...data.slice(left, right + 1).map((d) => d.price)
+      ).toString(),
+      bottom: Math.min(
+        ...data.slice(left, right + 1).map((d) => d.price)
+      ).toString(),
     });
   };
 
@@ -154,7 +158,7 @@ export const PriceChart = ({ data }: PriceChartProps) => {
           )}
           {selectedPoint !== null && (
             <ReferenceLine
-              x={data[selectedPoint].date}
+              x={data[selectedPoint].date.getTime()}
               stroke="#3B82F6"
               strokeDasharray="3 3"
             />

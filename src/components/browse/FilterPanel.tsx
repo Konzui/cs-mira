@@ -5,17 +5,9 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface FilterPanelProps {
@@ -40,6 +32,25 @@ const initialFilters: FilterOptions = {
   minDemandScore: 0,
 };
 
+export const rarityOptions = [
+  "Consumer",
+  "Industrial",
+  "Mil-Spec",
+  "Restricted",
+  "Classified",
+  "Covert",
+];
+
+export const typeOptions = ["Rifle", "Pistol", "Knife", "Gloves", "Container"];
+
+export const wearOptions = [
+  "Factory New",
+  "Minimal Wear",
+  "Field-Tested",
+  "Well-Worn",
+  "Battle-Scarred",
+];
+
 export const FilterPanel = ({
   isOpen,
   onClose,
@@ -47,26 +58,8 @@ export const FilterPanel = ({
 }: FilterPanelProps) => {
   const [filters, setFilters] = useState<FilterOptions>(initialFilters);
 
-  const rarityOptions = [
-    "Consumer",
-    "Industrial",
-    "Mil-Spec",
-    "Restricted",
-    "Classified",
-    "Covert",
-  ];
-  const typeOptions = ["Rifle", "Pistol", "Knife", "Gloves", "Container"];
-  const wearOptions = [
-    "Factory New",
-    "Minimal Wear",
-    "Field-Tested",
-    "Well-Worn",
-    "Battle-Scarred",
-  ];
-
   const handleApply = () => {
     onApplyFilters(filters);
-    onClose();
   };
 
   const handleReset = () => {
@@ -84,7 +77,7 @@ export const FilterPanel = ({
           {/* Price Range */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-200">
-              Price Range
+              Price Range (€)
             </label>
             <div className="space-y-4">
               <Slider
@@ -136,28 +129,56 @@ export const FilterPanel = ({
             </div>
           </div>
 
-          {/* Demand Score */}
+          {/* Type */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-200">
-              Minimum Demand Score
-            </label>
-            <Select
-              value={filters.minDemandScore.toString()}
-              onValueChange={(value) =>
-                setFilters({ ...filters, minDemandScore: Number(value) })
-              }
-            >
-              <SelectTrigger className="bg-gray-700 border-gray-600">
-                <SelectValue placeholder="Select minimum score" />
-              </SelectTrigger>
-              <SelectContent>
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((score) => (
-                  <SelectItem key={score} value={score.toString()}>
-                    {score}+
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <label className="text-sm font-medium text-gray-200">Type</label>
+            <div className="space-y-2">
+              {typeOptions.map((type) => (
+                <div key={type} className="flex items-center">
+                  <Checkbox
+                    id={type}
+                    checked={filters.types.includes(type)}
+                    onCheckedChange={(checked) => {
+                      setFilters({
+                        ...filters,
+                        types: checked
+                          ? [...filters.types, type]
+                          : filters.types.filter((t) => t !== type),
+                      });
+                    }}
+                  />
+                  <label htmlFor={type} className="ml-2 text-sm text-gray-300">
+                    {type}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Wear */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-200">Wear</label>
+            <div className="space-y-2">
+              {wearOptions.map((wear) => (
+                <div key={wear} className="flex items-center">
+                  <Checkbox
+                    id={wear}
+                    checked={filters.wear.includes(wear)}
+                    onCheckedChange={(checked) => {
+                      setFilters({
+                        ...filters,
+                        wear: checked
+                          ? [...filters.wear, wear]
+                          : filters.wear.filter((w) => w !== wear),
+                      });
+                    }}
+                  />
+                  <label htmlFor={wear} className="ml-2 text-sm text-gray-300">
+                    {wear}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

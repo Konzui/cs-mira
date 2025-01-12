@@ -1,26 +1,20 @@
-export interface PriceHistoryPoint {
-  date: Date;
-  price: number;
-  supply: number;
-  offersSold: number;
-}
-
-export interface ItemStats {
-  priceChange: number;
-  priceChangePercentage: number;
-  offersSold: number;
-  offersChange: number;
-}
-
-export interface Item {
+export interface BaseItem {
+  id: string;
   name: string;
   thumbnail: string;
-  category: string;
-  type: string;
-  weapon: string;
-  currentPrice: number;
-  totalQuantity: number;
-  demandScore: number;
-  priceHistory: PriceHistoryPoint[];
-  stats: ItemStats;
+  price: number;
+  priceChange: number;
+  rarity: string;
+}
+
+export interface MarketItem extends BaseItem {
+  items: BaseItem[];
+}
+
+export interface CaseItem extends BaseItem {
+  items: BaseItem[];
+}
+
+export interface CollectionItem extends BaseItem {
+  items: BaseItem[];
 }

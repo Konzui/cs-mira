@@ -178,6 +178,7 @@ export const Sidebar = ({
         <button
           onClick={() => {
             if (item.children) {
+              onNavigate(item.path);
               toggleExpand(item.title);
             } else {
               onNavigate(item.path);

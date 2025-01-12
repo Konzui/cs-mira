@@ -19,9 +19,8 @@ interface SearchBarProps {
 export const sortOptions = {
   "price-asc": "Price: Low to High",
   "price-desc": "Price: High to Low",
-  "demand-desc": "Highest Demand",
-  newest: "Newest First",
   "name-asc": "Name: A to Z",
+  newest: "Newest First",
 };
 
 export const SearchBar = ({ onSearch, onSort, onFilter }: SearchBarProps) => {
@@ -62,9 +61,13 @@ export const SearchBar = ({ onSearch, onSort, onFilter }: SearchBarProps) => {
             <SelectTrigger className="w-[180px] bg-gray-700 border-gray-600">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-gray-700 border-gray-600">
               {Object.entries(sortOptions).map(([value, label]) => (
-                <SelectItem key={value} value={value}>
+                <SelectItem
+                  key={value}
+                  value={value}
+                  className="text-white hover:bg-gray-600"
+                >
                   {label}
                 </SelectItem>
               ))}
